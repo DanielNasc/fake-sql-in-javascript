@@ -1,0 +1,15 @@
+{
+  "name": "stupid-sql-database",
+  "version": "1.0.0",
+  "description": "Um servidor SQL fake feito com Javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "sql"
+  ],
+  "author": "Daniel Nasc",
+  "license": "MIT"
+}
