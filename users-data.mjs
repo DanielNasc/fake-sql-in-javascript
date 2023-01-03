@@ -1,6 +1,6 @@
 export var users = [
     {
-        "id": "1",
+        "id": 1,
         "name": "Edgar",
         "species": "dog",
         "age": 3,
@@ -8,7 +8,7 @@ export var users = [
         "job": "sleep"
     },
     {
-        "id": "2",
+        "id": 2,
         "name": "John",
         "species": "human",
         "age": 25,
@@ -16,7 +16,7 @@ export var users = [
         "job": "programmer"
     },
     {
-        "id": "3",
+        "id": 3,
         "name": "Koshigi",
         "species": "human",
         "age": 31,
@@ -24,7 +24,7 @@ export var users = [
         "job": "samurai"
     },
     {
-        "id": "4",
+        "id": 4,
         "name": "Peter Parker",
         "species": "human",
         "age": 25,
@@ -32,7 +32,7 @@ export var users = [
         "job": "photographer"
     },
     {
-        "id": "5",
+        "id": 5,
         "name": "Tony Stark",
         "species": "human",
         "age": 45,
@@ -40,7 +40,7 @@ export var users = [
         "job": "engineer"
     },
     {
-        "id": "6",
+        "id": 6,
         "name": "Thor",
         "species": "god",
         "age": 1500,
@@ -48,7 +48,7 @@ export var users = [
         "job": "idk"
     },
     {
-        "id": "7",
+        "id": 7,
         "name": "Bruce Wayne",
         "species": "human",
         "age": 32,

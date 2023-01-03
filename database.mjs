@@ -91,6 +91,16 @@ export class FakeSQLDatabase {
             }
         )
     }
+
+    delete ({ table_name, where }) {
+        let counter = 0
+
+        this.from({table_name, where}).forEach(row =>
+            this.database[table_name].pop(row)
+        )
+
+        return counter;
+    }
 }
 
 const d = new FakeSQLDatabase();
@@ -138,6 +148,26 @@ console.table(
                     value: "Sonic"
                 }
             ]
+        })
+    })
+)
+
+d.delete({
+    table_name: "users",
+    where: [
+        {
+            column: "age",
+            operator: "GT",
+            value: 5                
+        }
+    ]
+})
+
+console.table(
+    d.select({
+        columns: "*",
+        result: d.from({
+            table_name: "users"
         })
     })
 )
