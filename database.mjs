@@ -101,6 +101,21 @@ export class FakeSQLDatabase {
 
         return counter;
     }
+
+    update({ table_name, result, values }) {
+        let counter = 0
+
+        result.forEach(row => {
+          let index = this.database[table_name].findIndex(r => r.id === row.id)
+
+          Object.keys(values).forEach(key => {
+            counter++;
+            this.database[table_name][index][key] = values[key]
+          })
+        })
+
+        return counter
+    }
 }
 
 const d = new FakeSQLDatabase();
@@ -148,6 +163,32 @@ console.table(
                     value: "Sonic"
                 }
             ]
+        })
+    })
+)
+
+d.update({
+    table_name: "users",
+    values: {
+        city: "Tokyo"
+    },
+    result: d.from({
+        table_name: "users",
+        where: [
+            {
+                column: "species",
+                operator: "EQ",
+                value: "human"
+            }
+        ]
+    })
+})
+
+console.table(
+    d.select({
+        columns: "*",
+        result: d.from({
+            table_name: "users",
         })
     })
 )
