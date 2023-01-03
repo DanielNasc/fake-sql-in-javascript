@@ -7,21 +7,28 @@ export class FakeSQLDatabase {
         this.database["users"] = users;
     }
 
-    select({columns, table}) {
+    insert({table_name, values}) {;
+        if (this.database[table_name])
+        {
+            const id = this.database.length > 0 ? this.database[this.database.length - 1].id : 0;
+            this.database[table_name].push({...values, id})
+        }
+    } 
+
+    select({columns, result}) {
         if (columns === "*") {
-            return table;
+            return result;
         }
 
-        const data = table;
-        if (!data) {
-            return [];
+        if (!result) {
+            return []
         }
 
-        return data.map(row => {
+        return result.map(row => {
             const newRow = {};
 
             for (const column of columns) {
-                if (row[column]) {
+                if (column in row) {
                     newRow[column] = row[column];
                 }
             }
@@ -46,7 +53,7 @@ export class FakeSQLDatabase {
             for (const expr of where) {
                 const { column, operator, value } = expr;
 
-                if (!row[column]) return false
+                if (!(column in row)) return false
 
                 switch(operator) {
                     case "EQ":
@@ -65,19 +72,70 @@ export class FakeSQLDatabase {
             return true;
         })
     }
+
+    orderBy({result, order = 'ASC', column}) {
+        if (result.length === 0 || !(column in result[0]) || !(["DESC", "ASC"].includes(order))) {
+            return result;
+        }
+
+        const return_signal = order === 'ASC' ? 1 : -1;
+
+        return result.sort(
+            function (row1, row2) {
+                if (row1[column] < row2[column])
+                    return -1 * return_signal;
+                else if (row1[column] > row2[column])
+                    return 1 * return_signal;
+                else
+                    return 0;
+            }
+        )
+    }
 }
 
 const d = new FakeSQLDatabase();
+
 console.table(
     d.select({
-        columns: ["name", "age", "job"],
-        table: d.from({
+        columns: ["id", "name", "job"],
+        result: d.orderBy({
+            column: "age",
+            order: "DESC",
+            result: d.from({
+                table_name: "users",
+                where: [
+                    {
+                        column: "age",
+                        operator: "GT",
+                        value: 20
+                    }
+                ]
+            })
+        })
+    })
+)
+
+d.insert({
+    table_name: "users",
+    values: {
+        "name": "Sonic",
+        "species": "Hedgehog",
+        "age": 32,
+        "city": "None",
+        "job": "Egg eater"
+    }
+})
+
+console.table(
+    d.select({
+        columns: "*",
+        result: d.from({
             table_name: "users",
             where: [
                 {
-                    column: "age",
-                    operator: "GT",
-                    value: 3
+                    column: "name",
+                    operator: "EQ",
+                    value: "Sonic"
                 }
             ]
         })
